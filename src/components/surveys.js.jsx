@@ -1,25 +1,43 @@
-import React, { useState } from "react";
+import React, { Fragment, useState, useEffect } from "react";
 import { FlexboxDiv, TextSpan } from "./layouts.js.jsx";
 import dateFormat from "dateformat";
 import { DATE_FORMAT, DATE_FORMAT_HMS } from "./helper";
 import styled from "styled-components";
 import Collapsible from "react-collapsible";
+import { ROUTES } from "./helper";
+import HookFetch from "./hook_fetch.js";
+import SurveyForm from "./survey_form.js";
 
-const survey = ({ id, title, tagline }, index) => {
-  // const [questions, setQuestions] = useState([]);
+const Survey = ({ id, title, tagline }) => {
+  const fetcchedSurveyDetails = HookFetch(ROUTES.FETCH_SURVEY_QUESTIONS(id));
+  const [showForm, setShowForm] = useState(false);
 
-  const onOpen = () => {};
+  useEffect(() => {
+    // fetchedSurvey && setQuestions(fetchedSurvey.questions);
+  }, [showForm]);
 
+  const onOpen = () => {
+    setShowForm(true);
+  };
+
+  const titleSpan = (
+    <TextSpan fontM bold>
+      {title}
+    </TextSpan>
+  );
   return (
-    <FlexboxDiv key={`${index}-${id}`} paddingDefault>
-      <Collapsible trigger={title}>
-        <FlexboxDiv
-          flexDirection="column"
-          alignItems="center"
-          whiteBg
-          borderRadius
-        >
-          {tagline}
+    <FlexboxDiv paddingDefault flexDirection="column">
+      <Collapsible trigger={titleSpan} onOpen={onOpen}>
+        <FlexboxDiv flexDirection="column" whiteBg borderRadius>
+          <TextSpan bold paddingDefault>
+            {tagline}
+          </TextSpan>
+          {showForm && (
+            <SurveyForm
+              surveyId={id}
+              fetcchedSurveyDetails={fetcchedSurveyDetails}
+            />
+          )}
         </FlexboxDiv>
       </Collapsible>
     </FlexboxDiv>
@@ -27,11 +45,18 @@ const survey = ({ id, title, tagline }, index) => {
 };
 
 const Surveys = ({ surveys }) => {
-  console.log(surveys);
-  if (!surveys || surveys.length === 0) return null;
+  if (surveys === undefined || !surveys || surveys.length === 0) return null;
 
-  const list = surveys.map(survey);
-  return <FlexboxDiv flexWrap="wrap">{list}</FlexboxDiv>;
+  const list = surveys.map((survey, index) => (
+    <Fragment key={`${index}-${survey.id}`}>
+      <Survey {...survey} />
+    </Fragment>
+  ));
+  return (
+    <FlexboxDiv flexDirection="column" flexWrap="wrap">
+      {list}
+    </FlexboxDiv>
+  );
 };
 
 export default Surveys;

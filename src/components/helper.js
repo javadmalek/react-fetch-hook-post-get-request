@@ -7,5 +7,6 @@ export const BASE_API_URL =
 export const ROUTES = {
   FETCH_SURVEYS: `${BASE_API_URL}/surveys`,
   FETCH_SURVEY_QUESTIONS: surveyId => `${BASE_API_URL}/surveys/${surveyId}`,
-  POST_SURVEY_REPONSE: surveyId => `${BASE_API_URL}/surveys/${surveyId}`
+  POST_SURVEY_REPONSE: surveyId =>
+    `${BASE_API_URL}/surveys/${surveyId}/completions`
 };
