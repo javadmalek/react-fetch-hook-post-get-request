@@ -17,5 +17,12 @@ code {
 }
 
 .Collapsible {
+  max-width: 40em;
   width: 100%;
+  box-shadow: 0.125em 0.125em 0.5em grey;
+  border-radius: 0.5em;
+}
+
+.Collapsible__trigger {
+  padding: 1em;
 }

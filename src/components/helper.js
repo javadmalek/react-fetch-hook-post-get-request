@@ -1,6 +1,3 @@
-export const DATE_FORMAT = "yyyy-mm-dd, hh:MM TT";
-export const DATE_FORMAT_HMS = "hh:MM TT";
-
 // export const BASE_API_URL = 'https://private-5fb3f-surveysmock.apiary-mock.com/api';
 export const BASE_API_URL =
   "https://private-anon-dcbb05fed0-surveysmock.apiary-mock.com/api";

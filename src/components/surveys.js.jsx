@@ -1,8 +1,5 @@
-import React, { Fragment, useState, useEffect } from "react";
+import React, { Fragment, useState } from "react";
 import { FlexboxDiv, TextSpan } from "./layouts.js.jsx";
-import dateFormat from "dateformat";
-import { DATE_FORMAT, DATE_FORMAT_HMS } from "./helper";
-import styled from "styled-components";
 import Collapsible from "react-collapsible";
 import { ROUTES } from "./helper";
 import HookFetch from "./hook_fetch.js";
@@ -12,13 +9,7 @@ const Survey = ({ id, title, tagline }) => {
   const fetcchedSurveyDetails = HookFetch(ROUTES.FETCH_SURVEY_QUESTIONS(id));
   const [showForm, setShowForm] = useState(false);
 
-  useEffect(() => {
-    // fetchedSurvey && setQuestions(fetchedSurvey.questions);
-  }, [showForm]);
-
-  const onOpen = () => {
-    setShowForm(true);
-  };
+  const onOpen = () => setShowForm(true);
 
   const titleSpan = (
     <TextSpan fontM bold>
