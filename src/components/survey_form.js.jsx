@@ -1,78 +1,48 @@
 import React, { Fragment, useState, useEffect } from "react";
+import { FlexboxDiv, TextSpan } from "./layouts.js.jsx";
+import HookPostSurvey from "./hook_post_survey.js";
 
-const useSurveyFormHook = callback => {
-  const [inputs, setInputs] = useState({});
-  const handleSubmit = event => {
-    if (event) {
-      event.preventDefault();
-    }
-    callback();
-  };
-  const handleInputChange = event => {
-    event.persist();
-    setInputs(inputs => ({
-      ...inputs,
-      [event.target.name]: event.target.value
-    }));
-  };
+const SurveyForm = ({ fetcchedSurveyDetails, surveyId }) => {
+  const callbackAlert = isSaved => alert(isSaved ? "Saved!" : "Failed!...");
 
-  return {
-    handleSubmit,
-    handleInputChange,
-    inputs
-  };
-};
-
-const SurveyForm = ({ fetcchedSurveyDetails }) => {
   const [surveyDetails, setSurveyDetails] = useState(
     fetcchedSurveyDetails ? fetcchedSurveyDetails.survey : {}
+  );
+  const { inputs, handleInputChange, handleSubmit } = HookPostSurvey(
+    callbackAlert,
+    surveyId
   );
 
   useEffect(() => {
     setSurveyDetails(fetcchedSurveyDetails ? fetcchedSurveyDetails.survey : {});
   }, [fetcchedSurveyDetails]);
 
-  const callbackAlert = () => {
-    alert(`User Created!
-        Name: ${inputs.firstName} ${inputs.lastName}
-        Email: ${inputs.email}`);
-  };
-  const { inputs, handleInputChange, handleSubmit } = useSurveyFormHook(
-    callbackAlert
-  );
-
-  console.log("surveyDetails >>>", surveyDetails);
-
-  const makeRadioOption = (questionId, option, indexOption) => {
-    console.log("questionId >>", questionId);
-    return (
-      <Fragment key={`${questionId}-${indexOption}`}>
-        <input
-          key={indexOption}
-          type="radio"
-          name={questionId}
-          value={option}
-        />{" "}
-        {option}
-      </Fragment>
-    );
-  };
-
   const questions = surveyDetails.questions.map((question, indexQuestion) => (
-    <div key={indexQuestion}>
+    <FlexboxDiv key={indexQuestion} flexDirection="column" paddingBS>
       <label>{question.title}</label>
-      {question.options.map((option, indexOption) =>
-        makeRadioOption(question.id, option, indexOption)
-      )}
-    </div>
+      {question.options.map((option, indexOption) => (
+        <FlexboxDiv key={indexOption} paddingBS>
+          <input
+            key={indexOption}
+            type="radio"
+            id={`${question.id}-${indexOption}`}
+            name={question.id}
+            value={option}
+            onChange={handleInputChange}
+          />
+          <label htmlFor={`${question.id}-${indexOption}`}>{option}</label>
+        </FlexboxDiv>
+      ))}
+    </FlexboxDiv>
   ));
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div>{surveyDetails.tagline}</div>
-      {questions}
-      <button type="submit">Save</button>
-    </form>
+    <FlexboxDiv flexDirection="column" paddingDefault>
+      <form onSubmit={handleSubmit}>
+        {questions}
+        <button type="submit">Save</button>
+      </form>
+    </FlexboxDiv>
   );
 };
 export default SurveyForm;
