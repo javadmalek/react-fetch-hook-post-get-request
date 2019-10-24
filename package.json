@@ -4,7 +4,6 @@
   "private": true,
   "dependencies": {
     "camelcase-keys": "^6.0.1",
-    "dateformat": "^3.0.3",
     "prop-types": "^15.7.2",
     "react": "^16.10.0",
     "react-collapsible": "^2.6.0",

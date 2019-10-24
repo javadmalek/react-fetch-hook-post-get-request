@@ -1,5 +1,5 @@
-import React, { Fragment, useState, useEffect } from "react";
-import { FlexboxDiv, TextSpan } from "./layouts.js.jsx";
+import React, { useState, useEffect } from "react";
+import { FlexboxDiv } from "./layouts.js.jsx";
 import HookPostSurvey from "./hook_post_survey.js";
 
 const SurveyForm = ({ fetcchedSurveyDetails, surveyId }) => {
