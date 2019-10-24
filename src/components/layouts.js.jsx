@@ -20,10 +20,9 @@ export const FlexboxDiv = styled.div`
     `}
 
     ${({ whiteBg }) => whiteBg && "background: white;"}
-    ${({ ghostWhiteBg }) => ghostWhiteBg && "background: ghostwhite;"}
     ${({ borderRadius }) => borderRadius && "border-radius: 0.25em;"}
     ${({ paddingDefault }) => paddingDefault && "padding: 1em;"}
-    ${({ w30 }) => w30 && "min-width: 30%;"}
+    ${({ paddingBS }) => paddingBS && "padding-bottom: 0.5em;"}
     ${({ widthAuto }) => widthAuto && "width: auto;"}
     
     @media (max-width: 768px) {
@@ -37,6 +36,7 @@ export const TextSpan = styled.span`
     line-height: 1.5;
 
     ${({ marginRDefault }) => marginRDefault && "margin-right: 1em;"};
+    ${({ paddingDefault }) => paddingDefault && "padding: 1em;"}
     ${({ paddingS }) => paddingS && "padding: 0.5em;"}
     ${({ linkLike }) =>
       linkLike &&

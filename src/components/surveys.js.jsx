@@ -1,9 +1,9 @@
+import React, { Fragment, useState, useEffect } from "react";
 import { FlexboxDiv, TextSpan } from "./layouts.js.jsx";
 import dateFormat from "dateformat";
 import { DATE_FORMAT, DATE_FORMAT_HMS } from "./helper";
 import styled from "styled-components";
 import Collapsible from "react-collapsible";
-import React, { Fragment, useState, useEffect } from "react";
 import { ROUTES } from "./helper";
 import HookFetch from "./hook_fetch.js";
 import SurveyForm from "./survey_form.js";
@@ -20,18 +20,23 @@ const Survey = ({ id, title, tagline }) => {
     setShowForm(true);
   };
 
+  const titleSpan = (
+    <TextSpan fontM bold>
+      {title}
+    </TextSpan>
+  );
   return (
-    <FlexboxDiv paddingDefault>
-      <Collapsible trigger={title} onOpen={onOpen}>
-        <FlexboxDiv
-          flexDirection="column"
-          alignItems="center"
-          whiteBg
-          borderRadius
-        >
-          {tagline}
+    <FlexboxDiv paddingDefault flexDirection="column">
+      <Collapsible trigger={titleSpan} onOpen={onOpen}>
+        <FlexboxDiv flexDirection="column" whiteBg borderRadius>
+          <TextSpan bold paddingDefault>
+            {tagline}
+          </TextSpan>
           {showForm && (
-            <SurveyForm fetcchedSurveyDetails={fetcchedSurveyDetails} />
+            <SurveyForm
+              surveyId={id}
+              fetcchedSurveyDetails={fetcchedSurveyDetails}
+            />
           )}
         </FlexboxDiv>
       </Collapsible>
@@ -47,7 +52,11 @@ const Surveys = ({ surveys }) => {
       <Survey {...survey} />
     </Fragment>
   ));
-  return <FlexboxDiv flexWrap="wrap">{list}</FlexboxDiv>;
+  return (
+    <FlexboxDiv flexDirection="column" flexWrap="wrap">
+      {list}
+    </FlexboxDiv>
+  );
 };
 
 export default Surveys;
