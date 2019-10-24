@@ -1,18 +1,28 @@
-import React, { useState } from "react";
 import { FlexboxDiv, TextSpan } from "./layouts.js.jsx";
 import dateFormat from "dateformat";
 import { DATE_FORMAT, DATE_FORMAT_HMS } from "./helper";
 import styled from "styled-components";
 import Collapsible from "react-collapsible";
+import React, { Fragment, useState, useEffect } from "react";
+import { ROUTES } from "./helper";
+import HookFetch from "./hook_fetch.js";
+import SurveyForm from "./survey_form.js";
 
-const survey = ({ id, title, tagline }, index) => {
-  // const [questions, setQuestions] = useState([]);
+const Survey = ({ id, title, tagline }) => {
+  const fetcchedSurveyDetails = HookFetch(ROUTES.FETCH_SURVEY_QUESTIONS(id));
+  const [showForm, setShowForm] = useState(false);
 
-  const onOpen = () => {};
+  useEffect(() => {
+    // fetchedSurvey && setQuestions(fetchedSurvey.questions);
+  }, [showForm]);
+
+  const onOpen = () => {
+    setShowForm(true);
+  };
 
   return (
-    <FlexboxDiv key={`${index}-${id}`} paddingDefault>
-      <Collapsible trigger={title}>
+    <FlexboxDiv paddingDefault>
+      <Collapsible trigger={title} onOpen={onOpen}>
         <FlexboxDiv
           flexDirection="column"
           alignItems="center"
@@ -20,6 +30,9 @@ const survey = ({ id, title, tagline }, index) => {
           borderRadius
         >
           {tagline}
+          {showForm && (
+            <SurveyForm fetcchedSurveyDetails={fetcchedSurveyDetails} />
+          )}
         </FlexboxDiv>
       </Collapsible>
     </FlexboxDiv>
@@ -27,10 +40,13 @@ const survey = ({ id, title, tagline }, index) => {
 };
 
 const Surveys = ({ surveys }) => {
-  console.log(surveys);
-  if (!surveys || surveys.length === 0) return null;
+  if (surveys === undefined || !surveys || surveys.length === 0) return null;
 
-  const list = surveys.map(survey);
+  const list = surveys.map((survey, index) => (
+    <Fragment key={`${index}-${survey.id}`}>
+      <Survey {...survey} />
+    </Fragment>
+  ));
   return <FlexboxDiv flexWrap="wrap">{list}</FlexboxDiv>;
 };
 
